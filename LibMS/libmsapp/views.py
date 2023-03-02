@@ -14,3 +14,15 @@ def search_books(request):
     else:
         results = []
     return render(request, 'search.html', {'results': results})
+
+def home(request):
+    return render(request, 'home.html')
+
+def login(request):
+    error = None
+    if request.method == 'POST':
+        # handle form submission
+        pass
+    else:
+        # render the login form
+        return render(request, 'login.html', {'error': error})
