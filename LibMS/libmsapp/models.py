@@ -6,8 +6,8 @@ class Book(models.Model):
     author = models.CharField(max_length=200)
     description = models.TextField()
     published_date = models.DateField()
-    isbn = models.CharField(max_length=13, required=False)
-    available = models.BooleanField(required=False)
+    isbn = models.CharField(max_length=13, blank=True)
+    available = models.BooleanField(default=True, null=False)
 
     def __str__(self):
         return self.title
