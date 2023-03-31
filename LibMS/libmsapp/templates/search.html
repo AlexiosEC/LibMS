@@ -1,4 +1,138 @@
-<form method="GET">
-    <input type="text" name="query" placeholder="Search books...">
-    <input type="submit" value="Search">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    <style>
+        body {
+            letter-spacing: normal;
+            background-color: #810e0e;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .search-form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .serach-input-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 400px;
+        }
+        .search-input {
+            border: 2px solid #222;
+            border-radius: 20px;
+            padding: 10px;
+            font-size: 16px;
+            width: 60%;
+            max-width: 400px;
+            margin-right: 10px;
+        }
+        .search-button {
+            background-color: #810e0e;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .no-results {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            color: #810e0e;
+        }
+        .book-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .book-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .book-item:last-child {
+            border-bottom: none;
+        }
+        .book-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .book-author {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .book-description {
+            font-size: 14px;
+            color: #810e0e;
+        }
+        .banner {
+            background-color: #222;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .home-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .login-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <a href="/" class="home-link">Home</a>
+        <a href="/login" class="login-link">Sign Up/Login</a>
+    </div>
+    <div class="container">
+        <h1>Search Books</h1>
+        <form class="search-form" method="GET">
+            <div class="search-input-wrapper">
+                <input class="search-input" type="text" name="query" placeholder="Search books...">
+                <button class="search-button" type="submit">Search</button>
+            </div>
+        </form>
+        {% if results %}
+            <ul class="book-list">
+            {% for book in results %}
+                <li class="book-item">
+                    <div>
+                        <h2 class="book-title">{{ book.title }}</h2>
+                        <p class="book-author">by {{ book.author }}</p>
+                        <p class="book-description">{{ book.description }}</p>
+                    </div>
+                    <a href="{% url 'book_detail' book.pk %}">View Details</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-results">No results found.</p>
+        {% endif %}
+          
+    </div>
+</body>
+</html>
