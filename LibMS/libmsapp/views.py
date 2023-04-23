@@ -2,19 +2,20 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import Book
 from django.http import HttpResponse
+from django.views.generic import ListView
+from .forms import SearchForm
 
 # Create your views here.
-def search_books(request):
-    query = request.GET.get('query')
-    if query:
-        results = Book.objects.filter(
-            Q(title__icontains=query) |
-            Q(author__icontains=query) |
-            Q(description__icontains=query)
+class SearchBooksView(ListView):
+    form_class = SearchForm
+    model = Book
+    
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Book.objects.filter(
+            Q(title__icontains=query) | Q(author__icontains=query)
         )
-    else:
-        results = []
-    return render(request, 'search.html', {'results': results})
+        return object_list
 
 def login(request):
     error = None
