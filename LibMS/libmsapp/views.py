@@ -16,9 +16,6 @@ def search_books(request):
         results = []
     return render(request, 'search.html', {'results': results})
 
-def home(request):
-    return render(request, 'home.html')
-
 def login(request):
     error = None
     if request.method == 'POST':
