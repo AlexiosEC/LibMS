@@ -103,22 +103,18 @@
     </div>
     <div class="container">
         <h1>Search Books</h1>
-        <form class="search-form" method="GET">
-            <div class="search-input-wrapper">
-                <input class="search-input" type="text" name="query" placeholder="Search books...">
-                <button class="search-button" type="submit">Search</button>
-            </div>
+        <form action={% url 'search' %} method='get'>
+            <input name='q' type='text' placeholder='Search...'>
+            {{ form }}
         </form>
         {% if results %}
             <ul class="book-list">
-            {% for book in results %}
+            {% for book in object_list %}
                 <li class="book-item">
                     <div>
                         <h2 class="book-title">{{ book.title }}</h2>
                         <p class="book-author">by {{ book.author }}</p>
-                        <p class="book-description">{{ book.description }}</p>
                     </div>
-                    <a href="{% url 'book_detail' book.pk %}">View Details</a>
                 </li>
             {% endfor %}
             </ul>
