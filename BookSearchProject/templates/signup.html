@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/signup/style.css' %}" />
+  </head>
+  <body>
+    <div class="center">
+      <h1>Login</h1>
+
+      {% if form.errors %}
+        <p>There was an error!</p>
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <!-- <div class="txt_field">
+          <input type="text" required />
+          <span></span>
+          <label>Email</label>
+        </div>
+        <div class="txt_field">
+          <input type="password" required />
+          <span></span>
+          <label>Username</label>
+        </div>
+        <div class="txt_field">
+          <input type="password" required />
+          <span></span>
+          <label>Password</label>
+        </div>
+        <div class="txt_field">
+          <input type="password" required />
+          <span></span>
+          <label>Confirm Password</label>
+        </div> -->
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </body>
+</html>

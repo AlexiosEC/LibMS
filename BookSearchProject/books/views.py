@@ -3,7 +3,11 @@ from .models import Book
 from .forms import SearchForm
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
 class HomepageView(TemplateView):
     template_name = 'home.html'
@@ -36,12 +40,41 @@ class SearchResultsView(ListView):
         )
         """
 
+@csrf_protect
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        
+        if user is not None:
+            # User exists, log them in and redirect
+            login(request, user)
+            return redirect('home')
+        else:
+            # User does not exist, display error message
+            error_message = "Invalid username or password."
+            return render(request, 'login.html', {'error_message': error_message})
+    else:
+        return render(request, 'login.html')
+    
+def logout_user(request):
+    logout(request)
+    return redirect('home')
 
-def login(request):
-    error = None
+def signup(request):
     if request.method == 'POST':
         # handle form submission
-        pass
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            # messages.success(request, ("You have signed up successfully!"))
+            return redirect('home')
     else:
+        form = UserCreationForm()
         # render the login form
-        return render(request, 'login.html', {'error': error})
+    return render(request, 'signup.html', {'form': form})
