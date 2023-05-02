@@ -14,6 +14,7 @@
     <div class="container">
         <h1>Search Results</h1>
     </div>
+    {% if object_list %}
     <ul>
         {% for book in object_list %}
         <li class="book-item">
@@ -24,5 +25,11 @@
         </li>
         {% endfor %}
     </ul>
+    {% else %}
+        <div><center>
+            <h2 class="book-title">No Results</h2>
+            <p class="book-author">Please Try Again</p>
+        </center></div>
+    {% endif %}
     </body>
 </html>
